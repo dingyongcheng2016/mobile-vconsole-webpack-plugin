@@ -13,14 +13,15 @@ const VConsolePathContent = fs.readFileSync(VConsolePath, 'utf8');
 const PLuginID = 'ConsoleDebugWebpackPlugin';
 
 const isObject = (data) => Object.prototype.toString.call(data) === '[object Object]';
+const isArray = (data) => Object.prototype.toString.call(data) === '[object Array]';
 const isString = (data) => typeof data === 'string';
-const isArray = (data) => Array.isArray(data);
+
 
 const getDebugJs = function () {
     return debugFileContent;
 };
 
-class VConsoleWebpackPlugin {
+class vConsoleWebpackPlugin {
 
     constructor (options = {}) {
         this.options = Object.assign({
@@ -35,44 +36,44 @@ class VConsoleWebpackPlugin {
     apply(compiler) {
         const enable = this.options.enable;
         let pathVconsole = 'vconsole-webpack-plugin/src/vconsole.js';
-        const _root = module.parent.paths.find(item => { // eslint-disable-line no-unused-vars
-            let tmpPathVconsole = path.join(item, 'vconsole-webpack-plugin/src/vconsole.js');
-            if (fs.existsSync(item) && fs.existsSync(tmpPathVconsole)) {
-                pathVconsole = tmpPathVconsole;
-                return true;
-            }
-            return false;
-        });
+        // const _root = module.parent.paths.find(item => { // eslint-disable-line no-unused-vars
+        //     let tmpPathVconsole = path.join(item, 'vconsole-webpack-plugin/src/vconsole.js');
+        //     if (fs.existsSync(item) && fs.existsSync(tmpPathVconsole)) {
+        //         pathVconsole = tmpPathVconsole;
+        //         return true;
+        //     }
+        //     return false;
+        // });
 
         const that = this;
     
         const pluginFunction = (local, entry) => {
             if (enable) {
-                if (typeof entry === 'string') {
+                if (isString(entry)) {
                     if (!that.checkFilter([entry], that.options.filter)) {
                         // TODO: entry 为 string 时，修改不了，只有 object 才可以修改
                         entry = [pathVconsole, entry];
                         console.warn('[vconsole-webpack-plugin] 暂不支持 entry 为 string 类型的情况\n');
                     }
-                } else if (Object.prototype.toString.call(entry) === '[object Array]') {
+                } else if (isArray(entry)) {
                     if (!that.checkFilter(entry, that.options.filter)) {
                         entry.unshift(pathVconsole);
                     }
-                } else if (typeof entry === 'object') {
+                } else if (isObject(entry)) {
                     for (let key in entry) {
                         if (that.options.filter.indexOf(key) < 0) {
-                            if (Object.prototype.toString.call(entry[key]) === '[object Array]') {
+                            if (isArray(entry[key])) {
                                 if (!that.checkFilter(entry[key], that.options.filter)) { // 记住这句不能提升到上层 if，因为有其他类型情况，导致检测文件夹时出错
                                     entry[key].unshift(pathVconsole);
                                 }
-                            } else if (typeof entry[key] === 'string') {
+                            } else if (isString(entry[key])) {
                                 if (!that.checkFilter([entry[key]], that.options.filter)) {
                                     entry[key] = [pathVconsole, entry[key]];
                                 }
-                            } else if (Object.prototype.toString.call(entry[key]) === '[object Object]') {
+                            } else if (isObject(entry[key])) {
                                 if (!that.checkFilter([entry[key]], that.options.filter)) {
                                     // 兼容webpack 5 增加import参数
-                                    if (entry[key].import && Object.prototype.toString.call(entry[key].import) === '[object Array]') {
+                                    if (entry[key].import && isArray(entry[key].import)) {
                                         entry[key].import.unshift(pathVconsole);
                                     }
                                 }
@@ -132,8 +133,6 @@ class VConsoleWebpackPlugin {
             return /^\/{2,}/.test(word) || /^\/\*/.test(word) ? '' : word;
         });
     }
-
-
-
-
 }
+
+module.exports = vConsoleWebpackPlugin;
