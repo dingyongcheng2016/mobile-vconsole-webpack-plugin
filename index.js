@@ -42,7 +42,9 @@ class vConsoleWebpackPlugin {
 
         const that = this;
     
-        const pluginFunction = (local, entry) => {
+        const pluginFunction = (context, entry) => {
+            // webpack 5
+            //context: D:\study\webpack-template entry: { main: { import: [ 'D:\\study\\webpack-template\\src/index.js' ] } }
             if (enable) {
                 if (isString(entry)) {
                     if (!that.checkFilter([entry], that.options.filter)) {
@@ -67,7 +69,7 @@ class vConsoleWebpackPlugin {
                                 }
                             } else if (isObject(entry[key])) {
                                 if (!that.checkFilter([entry[key]], that.options.filter)) {
-                                    // 兼容webpack 5 增加import参数
+                                    // 兼容webpack 5 增加import参数 
                                     if (entry[key].import && isArray(entry[key].import)) {
                                         entry[key].import.unshift(pathVconsole);
                                     }
