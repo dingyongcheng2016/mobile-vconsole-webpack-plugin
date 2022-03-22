@@ -1,0 +1,12 @@
+{
+  "name": "vconsole-webpack-plugin",
+  "version": "1.0.0",
+  "description": "集成移动端Vconsole",
+  "main": "index.js",
+  "repository": "https://github.com/dingyongcheng2016/vconsole-webpack-plugin.git",
+  "author": "dingyongcheng <dingyongcheng@967111.com>",
+  "license": "MIT",
+  "dependencies": {
+    "vconsole": "^3.13.0"
+  }
+}
