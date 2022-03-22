@@ -1,10 +1,10 @@
 const VConsole = require('vconsole');
 
-if(!!window.vConsole){
+if(!window.vConsole){
     window.vConsole = new VConsole()
 }
 
-if(window.VConsole === undefined){
+if(!window.VConsole){
     window.VConsole = VConsole
 }
 

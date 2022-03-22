@@ -1,6 +1,6 @@
 {
   "name": "mobile-vconsole-webpack-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "集成移动端Vconsole",
   "main": "index.js",
   "homepage": "https://github.com/dingyongcheng2016/mobile-vconsole-webpack-plugin.git",
