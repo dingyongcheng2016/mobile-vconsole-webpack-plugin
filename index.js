@@ -6,11 +6,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
-
-const VConsolePath = path.resolve(__dirname, './src/vconsole.js');
-const VConsolePathContent = fs.readFileSync(VConsolePath, 'utf8');
-const PLuginID = 'ConsoleDebugWebpackPlugin';
 
 const isObject = (data) => Object.prototype.toString.call(data) === '[object Object]';
 const isArray = (data) => Object.prototype.toString.call(data) === '[object Array]';
@@ -35,9 +30,9 @@ class vConsoleWebpackPlugin {
 
     apply(compiler) {
         const enable = this.options.enable;
-        let pathVconsole = 'vconsole-webpack-plugin/src/vconsole.js';
+        let pathVconsole = 'mobile-vconsole-webpack-plugin/src/vconsole.js';
         // const _root = module.parent.paths.find(item => { // eslint-disable-line no-unused-vars
-        //     let tmpPathVconsole = path.join(item, 'vconsole-webpack-plugin/src/vconsole.js');
+        //     let tmpPathVconsole = path.join(item, 'mobile-vconsole-webpack-plugin/src/vconsole.js');
         //     if (fs.existsSync(item) && fs.existsSync(tmpPathVconsole)) {
         //         pathVconsole = tmpPathVconsole;
         //         return true;

@@ -9,4 +9,4 @@ if(window.VConsole === undefined){
 }
 
 
-module.exports = VConsole;
+// module.exports = VConsole;
